@@ -1,0 +1,29 @@
+# This is a file that is just a sample of how a configuration file is.
+# Copied from: https://docs.python.org/3/library/configparser.html
+
+[DEFAULT]
+ServerAliveInterval = 45
+Compression = yes
+CompressionLevel = 9
+ForwardX11 = yes
+
+[bitbucket.org]
+User = hg
+
+[topsecret.server.com]
+Port = 50022
+ForwardX11 = no
+
+# In the case of this published application the used configs will be
+# like shown bellow, the difference is that we're using cfg extension.
+
+[BROKER]
+Address = "123.456.789.010"
+Port = 1883
+Keepalive = 60
+Bind_Address = ""
+
+[TOPICS]
+CoffeeMachine = ""
+Plant_WaterLevel = ""
+LivingRoom_Temperature = ""
