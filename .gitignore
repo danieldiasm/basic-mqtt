@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # Configuration file
-.cfg
+*.cfg
 
 # C extensions
 *.so
