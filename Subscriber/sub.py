@@ -24,3 +24,6 @@ broker_keep = config['BROKER']['Keepalive']
 # if  config['BROKER']['Bind_Address'] is not "":
 #     broker_bind = config['BROKER']['Bind_Address']
 
+# Get the topics from the configfile using list comprehension
+topics = [topic for topic in config['TOPICS']]
+print(topics)
