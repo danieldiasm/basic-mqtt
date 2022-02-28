@@ -43,6 +43,8 @@ def on_connect(client, userdata, flags, rc):
         print(f"Subscribed on: {topic}")
 
 # The callback for when a PUBLISH message is received from the server.
+# THIS CAN BE CHANGED, RENAMED (REMEMBER TO RENAME ON OTHER PLACES) TO
+# HANDLE ANY MESSAGE.
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
 
@@ -52,7 +54,7 @@ client = mqtt.Client()
 # Set Callbacks to client
 # It goes like this: client.on_this_event = call_this_function
 client.on_connect = on_connect
-client.on_message = on_message
+client.on_message = on_message # REMEMBER TO RENAME THIS IF THE on_message GETS RENAMED
 
 # Now asks it for connecting effectively
 client.connect(broker_addr, broker_port, broker_keep)
