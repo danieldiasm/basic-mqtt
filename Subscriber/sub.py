@@ -13,4 +13,17 @@ import configparser
 import paho
 
 config = configparser.ConfigParser()
+config.read('configuration.cfg')
 
+# Read from config file broker configs and set on vars
+broker_addr = config['BROKER']['Address']
+broker_port = config['BROKER']['Port']
+broker_keep = config['BROKER']['Keepalive']
+
+# If there is any bind address, set it - TO BE IMPLEMENTED LATER
+# if  config['BROKER']['Bind_Address'] is not "":
+#     broker_bind = config['BROKER']['Bind_Address']
+
+# Get the topics from the configfile using list comprehension
+topics = [topic for topic in config['TOPICS']]
+print(topics)
