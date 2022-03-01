@@ -22,7 +22,7 @@ config = configparser.ConfigParser()
 config.read('configs.cfg')
 
 # Read from config file broker configs and set on vars
-client_name = str(config['BROKER']['ClientID'])
+client_iden = str(config['BROKER']['ClientID'])
 broker_addr = str(config['BROKER']['Address'])
 broker_port = int(config['BROKER']['Port'])
 broker_keep = int(config['BROKER']['Keepalive'])
@@ -31,11 +31,38 @@ broker_keep = int(config['BROKER']['Keepalive'])
 topics = [topic for topic in config['TOPICS']]
 
 # Paho publish function
-def publish_msg(messages, topic):
-    # This should become a dict later (kargs maybe)
-    global broker_addr, broker_port, broker_keep
+def publish_msg(messages, baddr, bport, bkeep, cid):
 
-    publisher.multiple(messages, hostname=broker_addr,
-    port=broker_port, client_id="", keepalive=broker_keep)
+    publisher.multiple(messages, hostname=baddr,
+    port=bport, client_id=cid, keepalive=bkeep)
 
+# Creates a message package and appends to a multiple
+def make_message_pkg(package: list ,message: str, topic: str, qos: int, retain: bool):
+    # The dict must be of the form:
+    # msg = {‘topic’:”<topic>”, ‘payload’:”<payload>”, ‘qos’:<qos>, ‘retain’:<retain>}
+    multiple = {}
+    multiple["topic"]   = topic
+    multiple["payload"] = message
+    multiple["qos"]     = qos
+    multiple["retain"]  = retain
+    package.append(multiple)
+    return package
 
+msg_package = []
+
+while True:
+    to_publish = input("Type some message to have it published:")
+    msg_package = make_message_pkg(msg_package, to_publish, topics[0], 0, True)
+    print()
+    
+    more = input("Do you want to add some more? (0 for exit)")
+    if more.lower() == 'y':
+        pass
+    elif more.lower() == 'n':
+        print("Published message:")
+        print(msg_package)
+        publish_msg(msg_package, broker_addr, broker_port, broker_keep, client_iden)
+    elif more.lower() == "0":
+        break
+    else:
+        print("Not valid, let's add some more!")
