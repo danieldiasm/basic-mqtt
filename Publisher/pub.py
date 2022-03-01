@@ -51,18 +51,27 @@ def make_message_pkg(package: list ,message: str, topic: str, qos: int, retain: 
 msg_package = []
 
 while True:
+    # Asks user for an input
     to_publish = input("Type some message to have it published:")
+    # Insert message to the queue
     msg_package = make_message_pkg(msg_package, to_publish, topics[0], 0, True)
     print()
     
-    more = input("Do you want to add some more? (0 for exit)")
+    # If some more should be added or send it already
+    more = input("Do you want to add some more? If not it will be sent. (0 for exit)")
     if more.lower() == 'y':
         pass
     elif more.lower() == 'n':
         print("Published message:")
         print(msg_package)
+        
         publish_msg(msg_package, broker_addr, broker_port, broker_keep, client_iden)
+        
+        # Clear the queue
+        msg_package = []
+        print()
     elif more.lower() == "0":
         break
     else:
         print("Not valid, let's add some more!")
+        print()
